@@ -7,7 +7,7 @@ import axios from "axios";
 import api from "./api";
 
 function CurrencyList() {
-  const [currencyData, setCurrencyData] = useState({});
+  const [currencyData, setCurrencyData] = useState([]);
   useEffect(() => {
     const getCurrencyData = async () => {
       const res = await api.get();
