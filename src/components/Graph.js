@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 //CSS
 import "./Components.css";
@@ -13,17 +13,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+//REACT CONTEXT
+import { CurrencyContext } from "../CurrencyContext";
 
 const data = [];
 
 function Graph() {
   const [currency, setCurrency] = useState("AUDUSD");
   const [apiData, setApiData] = useState([{}]);
+  const { currencyID } = useContext(CurrencyContext);
 
   useEffect(() => {
     const graphApiCall = async () => {
       const res = await axios.get(
-        `https://api.polygon.io/v2/aggs/ticker/C:${currency}/prev?adjusted=true&apiKey=eyAb2fd39WH4mvQFwCK6otHN9DvAqMQl`
+        `https://api.polygon.io/v2/aggs/ticker/C:AUD${currencyID}/prev?adjusted=true&apiKey=eyAb2fd39WH4mvQFwCK6otHN9DvAqMQl`
       );
       console.log(res.data.results);
       console.log(res.data.results[0].c);
@@ -36,7 +39,7 @@ function Graph() {
       ]);
     };
     graphApiCall();
-  }, []);
+  }, [currencyID]);
 
   return (
     <div className="graph-container">
@@ -50,6 +53,7 @@ function Graph() {
             bottom: 15,
           }}
         >
+          {console.log(currencyID)}
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
