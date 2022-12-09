@@ -1,10 +1,12 @@
 import React from "react";
 //CSS
 import "./Components.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 //API
 import axios from "axios";
 import api from "./api";
+//REACT CONTEXT
+import { CurrencyContext } from "../CurrencyContext";
 
 function CurrencyList() {
   const [currencyData, setCurrencyData] = useState([]);
@@ -17,13 +19,17 @@ function CurrencyList() {
     getCurrencyData();
   }, []);
 
+  const { setCurrencyID } = useContext(CurrencyContext);
+
   //Mapping through list of currencies
   const mappingCurrencies = currencyData.map((val) => {
     return (
       <ul key={val.currency_symbol}>
         <li>
           <p>AED / {val.currency_symbol}</p>
-          <button>View</button>
+          <button onClick={() => setCurrencyID(val.currency_symbol)}>
+            View
+          </button>
         </li>
       </ul>
     );
